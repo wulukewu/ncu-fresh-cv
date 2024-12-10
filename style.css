@@ -1,3 +1,5 @@
+/* https://coolors.co/1e212b-4d8b31-ffc800-ff8427-ffffff */
+
 body, ul, h1, h2, h3, h4, p {
     margin: 0;
     padding: 0;
@@ -9,11 +11,11 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #1E212B;
 }
 
 .container {
-    background-color: #fff;
+    background-color: #FFFFFF;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -36,19 +38,20 @@ body {
 
 .profile-info h1 {
     font-size: 1.5rem;
-    color: #333;
+    color: #FF8427;
 }
 
 .profile-info h2 {
     font-size: 1.2rem;
     margin-top: 10px;
-    color: #666;
+    color: #4D8B31;
 }
 
 .profile-info ul {
     margin-top: 10px;
     padding-left: 20px;
     list-style-type: disc;
+    color: #1E212B;
 }
 
 .skills {
@@ -57,7 +60,7 @@ body {
 
 .skills h2 {
     font-size: 1.3rem;
-    color: #333;
+    color: #4D8B31;
     margin-bottom: 15px;
     margin-left: 170px;
 }
@@ -78,20 +81,31 @@ body {
 .skills-list li {
     margin-bottom: 5px;
     font-size: 1rem;
-    color: #555;
+    color: #1E212B;
 }
 
 .projects {
     margin-top: 20px;
 }
 
+.project-link {
+    text-decoration: none;
+}
+
 .project {
-    border: 2px solid #ddd;
+    border: 2px solid #1E212B;
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
+    background-color: #FFFFFF;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .project-image {
@@ -107,11 +121,11 @@ body {
 
 .project-info h3 {
     font-size: 1.2rem;
-    color: #333;
+    color: #FF8427;
     margin-bottom: 10px;
 }
 
 .project-info p {
     font-size: 1rem;
-    color: #555;
+    color: #1E212B;
 }
