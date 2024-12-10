@@ -22,10 +22,32 @@ body {
     background-color: #000000;
     color: #000000;
     overflow-y: overlay;
+    position: relative;
+}
+
+#matrix {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }
 
 .container {
     padding: 20px;
+    z-index: 1;
+}
+
+.main-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.main-header h1 {
+    font-family: 'RobotoBold', sans-serif;
+    font-size: 4rem;
+    color: #FFFFFF;
 }
 
 .profile-header {
@@ -134,7 +156,7 @@ body {
 }
 
 .project {
-    border: 2px solid #000000;
+    border: 2px solid #FFFFFF;
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: 20px;
