@@ -18,7 +18,6 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 80%;
-    /* max-width: 1200px; */
 }
 
 .profile {
@@ -60,21 +59,24 @@ body {
     font-size: 1.3rem;
     color: #333;
     margin-bottom: 15px;
+    margin-left: 170px;
 }
 
 .skills-list {
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    justify-content: center;
+    gap: 40px;
 }
 
 .skills-list ul {
     list-style-type: none;
     padding: 0;
+    flex: 1;
+    max-width: 200px;
 }
 
 .skills-list li {
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     font-size: 1rem;
     color: #555;
 }
