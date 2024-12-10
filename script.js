@@ -3,11 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     projects.forEach(project => {
         project.addEventListener('mouseover', () => {
-            project.style.backgroundColor = '#FFC80080';
+            project.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
         });
 
         project.addEventListener('mouseout', () => {
-            project.style.backgroundColor = '#FFFFFF';
+            project.style.backgroundColor = '#000000';
         });
     });
 
