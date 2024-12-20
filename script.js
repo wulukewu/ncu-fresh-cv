@@ -52,22 +52,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Run the animation for 5 seconds, then stop
+    // Run the animation continuously
     const intervalId = setInterval(draw, 33);
-    setTimeout(() => {
-        clearInterval(intervalId);
-        let alpha = 1.0;
-        const fadeOutInterval = setInterval(() => {
-            alpha -= 0.02; // 调整步长以实现更平滑的淡出效果
-            if (alpha <= 0) {
-                clearInterval(fadeOutInterval);
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            } else {
-                ctx.fillStyle = `rgba(0, 0, 0, ${alpha})`;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-            }
-        }, 50); // 调整间隔时间以实现更平滑的淡出效果
-    }, 5000);
+
+    // Hide loading screen on scroll
+    const overlay = document.getElementById('loading-screen');
+    const container = document.querySelector('.container');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                container.classList.add('visible');
+            }, 500); // Match this duration with the CSS transition duration
+        }
+    });
+
+    // Show loading screen when scrolling to the top
+    window.addEventListener('scroll', () => {
+        if (window.scrollY === 0) {
+            overlay.style.display = 'flex';
+            setTimeout(() => {
+                overlay.style.opacity = '1';
+                container.classList.remove('visible');
+            }, 10); // Small delay to ensure display change is applied
+        }
+    });
 
     // Resize canvas on window resize
     window.addEventListener('resize', () => {

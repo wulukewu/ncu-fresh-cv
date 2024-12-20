@@ -1,9 +1,4 @@
 @font-face {
-    font-family: 'ChenyuLuoYanThin';
-    src: url('fonts/SourceHanSerifTC-Light.otf') format('truetype');
-}
-
-@font-face {
     font-family: 'RobotoBold';
     src: url('fonts/Roboto-Bold.ttf') format('truetype');
 }
@@ -20,7 +15,7 @@ body {
     align-items: center;
     min-height: 100vh;
     background-color: #000000;
-    color: #000000;
+    color: #FFFFFF;
     overflow-y: overlay;
     position: relative;
 }
@@ -31,12 +26,65 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: 0;
+}
+
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    transition: opacity 0.5s ease; /* Smooth transition for opacity */
+}
+
+.loading-title {
+    font-family: 'RobotoBold', sans-serif;
+    font-size: 4rem;
+    margin-bottom: 20px;
+    color: #FFFFFF; /* 白色字體 */
+    transition: none; /* 禁止透明度变化 */
+}
+
+.loading-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #FFFFFF; /* 白色字體 */
+    transition: none; /* 禁止透明度变化 */
+}
+
+.arrow {
+    width: 30px;
+    height: 30px;
+    border-left: 5px solid #FFFFFF;
+    border-bottom: 5px solid #FFFFFF;
+    transform: rotate(45deg);
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0) rotate(45deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(45deg);
+    }
 }
 
 .container {
-    padding: 20px;
-    z-index: 1;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.container.visible {
+    opacity: 1;
 }
 
 .main-header {
@@ -82,7 +130,6 @@ body {
     display: flex;
     justify-content: space-between;
     gap: 20px;
-    padding: 100px;
 }
 
 .luke-profile {
@@ -156,7 +203,7 @@ body {
 }
 
 .project {
-    border: 2px solid #FFFFFF;
+    border: 2px solid #000000;
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: 20px;
