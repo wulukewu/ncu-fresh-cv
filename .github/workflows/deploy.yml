@@ -8,21 +8,12 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Pages
-        uses: github/pages@v4
-
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: github/pages@v3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          # Build output to publish to the `gh-pages` branch:
-          build_dir: .
+          folder: .   # The folder where your website files are located (root)
+          branch: gh-pages # The branch the action should deploy to.
