@@ -8,17 +8,21 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+      - name: Setup Pages
+        uses: github/pages@v4
 
       - name: Deploy to GitHub Pages
-        uses: crazy-max/ghaction-github-pages@v3.1.0
+        id: deployment
+        uses: github/pages@v3
         with:
-          target_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Build output to publish to the `gh-pages` branch:
           build_dir: .
