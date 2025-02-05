@@ -1,0 +1,14 @@
+{
+    "name": "ncu-fresh-cv",
+    "version": "1.0.0",
+    "description": "A CV project",
+    "main": "index.js",
+    "scripts": {
+      "build": "echo 'No build script defined'"
+    },
+    "author": "Luke & Ray",
+    "license": "MIT",
+    "dependencies": {
+      "some-dependency": "^1.0.0"
+    }
+  }
