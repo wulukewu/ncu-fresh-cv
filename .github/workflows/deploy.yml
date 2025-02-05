@@ -3,7 +3,7 @@ name: Deploy GitHub Pages
 on:
   push:
     branches:
-      - main  # Or whatever branch you're using for GitHub Pages
+      - main
 
 jobs:
   deploy:
@@ -12,8 +12,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          folder: .   # The folder where your website files are located (root)
-          branch: gh-pages # The branch the action should deploy to.
+          node-version: '18'
+
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v3.1.0
+        with:
+          target_branch: gh-pages
+          build_dir: .
