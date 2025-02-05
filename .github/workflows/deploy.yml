@@ -1,0 +1,19 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Or whatever branch you're using for GitHub Pages
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: .   # The folder where your website files are located (root)
+          branch: gh-pages # The branch the action should deploy to.
