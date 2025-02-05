@@ -1,0 +1,238 @@
+@font-face {
+    font-family: 'ChenyuLuoYanThin';
+    src: url('fonts/SourceHanSerifTC-Light.otf') format('truetype');
+}
+
+@font-face {
+    font-family: 'RobotoBold';
+    src: url('fonts/Roboto-Bold.ttf') format('truetype');
+}
+
+body, ul, h1, h2, h3, h4, p {
+    font-family: 'ChenyuLuoYanThin', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #000000;
+    color: #000000;
+    overflow-y: overlay;
+    position: relative;
+}
+
+#matrix {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.container {
+    padding: 20px;
+    z-index: 1;
+}
+
+.main-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.main-header h1 {
+    font-family: 'RobotoBold', sans-serif;
+    font-size: 4rem;
+    color: #FFFFFF;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}
+
+.vertical-text {
+    font-family: 'RobotoBold', sans-serif;
+    font-size: 10rem;
+    transform: rotate(270deg);
+    white-space: nowrap;
+    color: #000000;
+}
+
+.luke-profile .vertical-text {
+    color: #000000;
+}
+
+.ray-profile .vertical-text {
+    color: #FFFFFF;
+}
+
+.profile, .skills, .projects {
+    margin-bottom: 20px;
+    animation: slideIn 1s ease-in-out;
+}
+
+.profile-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 100px;
+}
+
+.luke-profile {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.ray-profile, .projects {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+.profile-info, .skills {
+    flex: 1;
+}
+
+.profile-info h1 {
+    font-size: 1.5rem;
+    color: inherit;
+}
+
+.profile-info h2, .skills h2 {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    color: inherit;
+}
+
+.profile-info ul, .skills ul {
+    margin-top: 10px;
+    padding-left: 20px;
+    list-style-type: disc;
+    color: inherit;
+}
+
+.profile-info ul ul, .skills ul ul {
+    list-style-type: circle;
+    padding-left: 20px;
+}
+
+.profile-info ul ul ul, .skills ul ul ul {
+    list-style-type: square;
+    padding-left: 20px;
+}
+
+.skills-list {
+    display: flex;
+    justify-content: left;
+    gap: 40px;
+}
+
+.skills-list ul {
+    list-style-type: none;
+    padding: 0;
+    flex: 1;
+    max-width: 100px;
+}
+
+.skills-list li {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: inherit;
+}
+
+.projects {
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.project-link {
+    text-decoration: none;
+}
+
+.project {
+    border: 2px solid #FFFFFF;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    background-color: #000000;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.project:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+}
+
+.project-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.project-info {
+    padding: 10px;
+}
+
+.project-info h3 {
+    font-size: 1.2rem;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+}
+
+.project-info p {
+    font-size: 1rem;
+    color: #FFFFFF;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes rotateIn {
+    from {
+        transform: rotate(-360deg);
+        opacity: 0;
+    }
+    to {
+        transform: rotate(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
