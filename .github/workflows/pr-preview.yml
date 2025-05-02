@@ -29,8 +29,8 @@ jobs:
       - name: Copy files to preview directory
         if: success()
         run: |
-          # Copy all files and directories EXCEPT the 'gh-pages' directory itself
-          find . -maxdepth 1 ! -path "./.git" ! -path "./gh-pages" -print0 | xargs -0 cp -r --target-directory=gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
+          # Copy all files and directories EXCEPT the 'gh-pages' and '.git' directory itself
+          find . -maxdepth 1 ! -path "./.git" ! -path "./gh-pages" -print0 | xargs -0 cp -r -t gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
 
           echo "Contents of preview directory:"
           ls -la gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
