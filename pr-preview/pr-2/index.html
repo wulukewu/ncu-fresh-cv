@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ray & Luke</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="img/cv.png" type="image/x-icon" />
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <canvas id="matrix"></canvas>
+    <div class="matrix-overlay"></div>
+    <div class="glow top-0 left-1/4"></div>
+    <div class="glow bottom-0 right-1/4"></div>
+
+    <!-- Matrix Control Panel -->
+    <div class="matrix-panel-toggle" id="panelToggle">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="16"></line>
+        <line x1="8" y1="12" x2="16" y2="12"></line>
+      </svg>
+    </div>
+
+    <div class="matrix-panel" id="matrixPanel">
+      <div class="mb-3 font-bold text-sm">Matrix Control Panel</div>
+      <div class="mb-2">
+        <label class="block mb-1 text-xs">Rain Speed</label>
+        <input
+          type="range"
+          id="rainSpeed"
+          min="10"
+          max="100"
+          value="35"
+          class="w-full"
+        />
+      </div>
+      <div class="mb-2">
+        <label class="block mb-1 text-xs">Density</label>
+        <input
+          type="range"
+          id="density"
+          min="1"
+          max="20"
+          value="10"
+          class="w-full"
+        />
+      </div>
+      <div class="mb-2">
+        <label class="block mb-1 text-xs">Brightness</label>
+        <input
+          type="range"
+          id="brightness"
+          min="1"
+          max="10"
+          value="5"
+          class="w-full"
+        />
+      </div>
+      <div class="mb-2">
+        <label class="block mb-1 text-xs">Glitch Frequency</label>
+        <input
+          type="range"
+          id="glitchFreq"
+          min="1"
+          max="100"
+          value="30"
+          class="w-full"
+        />
+      </div>
+      <div class="flex space-x-2 mt-3">
+        <button
+          id="resetMatrix"
+          class="text-xs bg-transparent border border-green-500 text-green-500 px-2 py-1 rounded hover:bg-green-500 hover:text-black transition-all"
+        >
+          Reset
+        </button>
+        <button
+          id="matrixMode"
+          class="text-xs bg-transparent border border-green-500 text-green-500 px-2 py-1 rounded hover:bg-green-500 hover:text-black transition-all"
+        >
+          Classic Mode
+        </button>
+      </div>
+      <div class="text-xs mt-3 code-font" id="matrixStats">
+        FPS: 0 | Drops: 0
+      </div>
+    </div>
+
+    <div class="container">
+      <header class="main-header">
+        <h1
+          class="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-500 via-purple-500 to-violet-500 bg-clip-text text-transparent terminal-text glitch"
+          data-text="Ray & Luke"
+        >
+          Ray & Luke
+        </h1>
+        <div
+          class="h-1 w-24 bg-gradient-to-r from-blue-500 to-violet-500 mx-auto rounded-full pulse"
+        ></div>
+      </header>
+
+      <!-- Luke's Profile -->
+      <section class="profile luke-profile">
+        <div class="profile-content">
+          <div class="profile-header">
+            <h1 class="vertical-text">LUKE</h1>
+          </div>
+          <div class="profile-info">
+            <h2
+              class="text-3xl font-bold mb-2 text-white interactive-element"
+              id="infoTitle"
+            >
+              資訊能力
+            </h2>
+            <div
+              class="h-1 w-16 bg-gradient-to-r from-blue-500 to-violet-500 rounded-full"
+            ></div>
+
+            <div class="timeline-item">
+              <h3
+                class="text-2xl font-semibold text-blue-400 mb-4 interactive-element"
+              >
+                大一
+              </h3>
+
+              <div class="skill-category">
+                <h4
+                  class="text-xl font-medium text-white mb-3 interactive-element"
+                >
+                  網路資安
+                </h4>
+                <div class="ml-2">
+                  <h5
+                    class="text-lg font-medium text-blue-300 mb-2 interactive-element"
+                  >
+                    Router
+                  </h5>
+                  <ul class="skill-list space-y-2 text-gray-300">
+                    <li>
+                      曾重新設定過DHCP來連結數據機、路由器、交換器與數臺主機之間的溝通
+                    </li>
+                    <li>曾透過橋接模式解決過雙層NAT的伺服器架設問題</li>
+                    <li>懂得使用Port Forwarding架設對外端口</li>
+                    <li>透過Docker自動刷新No-IP上的DDNS</li>
+                  </ul>
+
+                  <h5
+                    class="text-lg font-medium text-blue-300 mt-4 mb-2 interactive-element"
+                  >
+                    Cloudflare
+                  </h5>
+                  <ul class="skill-list space-y-2 text-gray-300">
+                    <li>串接過GoDaddy的Name Server管理</li>
+                    <li>設定過基礎的DNS Record</li>
+                    <li>透過Let's Encrypt佈署SSL Certificate</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="skill-category">
+                <h4
+                  class="text-xl font-medium text-white mb-3 interactive-element"
+                >
+                  Linux
+                </h4>
+                <ul class="skill-list ml-2 space-y-2 text-gray-300">
+                  <li>熟練系統的基本操作指令</li>
+                </ul>
+              </div>
+
+              <div class="skill-category">
+                <h4
+                  class="text-xl font-medium text-white mb-3 interactive-element"
+                >
+                  Docker
+                </h4>
+                <ul class="skill-list ml-2 space-y-2 text-gray-300">
+                  <li>在NAS上串接過一些開源工具</li>
+                  <li>
+                    使用Dockerfile包過爬蟲程式，定時架設在GitHub Actions上
+                  </li>
+                </ul>
+              </div>
+
+              <div class="skill-category">
+                <h4
+                  class="text-xl font-medium text-white mb-3 interactive-element"
+                >
+                  Git
+                </h4>
+                <ul class="skill-list ml-2 space-y-2 text-gray-300">
+                  <li>透過Git指令在小型團隊裡協作過爬蟲專案</li>
+                </ul>
+              </div>
+
+              <div class="skill-category">
+                <h4
+                  class="text-xl font-medium text-white mb-3 interactive-element"
+                >
+                  MySQL
+                </h4>
+                <ul class="skill-list ml-2 space-y-2 text-gray-300">
+                  <li>接觸過基本的MySQL語法，串接自架的網頁</li>
+                </ul>
+              </div>
+
+              <div class="skill-category">
+                <h4
+                  class="text-xl font-medium text-white mb-3 interactive-element"
+                >
+                  現任MCL（數學計算實驗室）工讀生
+                </h4>
+                <ul class="skill-list ml-2 space-y-2 text-gray-300">
+                  <li>正在學習計算機概論</li>
+                  <li>正在學習網路概論</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <h3
+                class="text-2xl font-semibold text-blue-400 mb-4 interactive-element"
+              >
+                高中
+              </h3>
+              <ul class="skill-list space-y-3 text-gray-300">
+                <li>
+                  高中三年：擔任班上的資訊股長，具備基礎的資訊處理與解決問題的能力。
+                </li>
+                <li>
+                  高三參與學校資訊中心的工作，負責協助管理硬體並進行主機升級、安裝系統。
+                  <ul class="sub-skill-list ml-6 mt-2 space-y-2 text-gray-400">
+                    <li>
+                      硬體維護：熟悉桌機、筆電的拆機維護，有基本硬體組裝及升級硬件能力。
+                    </li>
+                    <li>
+                      硬體管理：利用Google Sheets作為後台，結合Google
+                      Forms和Google Apps
+                      Script，建立了一個設備報修與借用的小型系統。
+                    </li>
+                    <li>
+                      公共電腦還原系統：與資訊中心的老師合作，透過Hyper-V環境，簡化裝機與系統安裝的流程。
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+
+            <div class="timeline-item">
+              <h3
+                class="text-2xl font-semibold text-blue-400 mb-4 interactive-element"
+              >
+                國中
+              </h3>
+              <div class="skill-category">
+                <h4
+                  class="text-xl font-medium text-white mb-3 interactive-element"
+                >
+                  文書處理能力
+                </h4>
+                <ul class="skill-list ml-2 space-y-2 text-gray-300">
+                  <li>
+                    Office：熟悉解決日常文書問題，並擅長使用Excel公式處理資料
+                  </li>
+                </ul>
+              </div>
+
+              <div class="skill-category">
+                <h4
+                  class="text-xl font-medium text-white mb-3 interactive-element"
+                >
+                  影音處理能力
+                </h4>
+                <ul class="skill-list ml-2 space-y-2 text-gray-300">
+                  <li>Ai、Ps：有基本圖像編輯能力</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Luke's Skill Tags -->
+      <div class="flex flex-wrap justify-center mt-8 mb-12">
+        <h3 class="w-full text-center text-xl font-semibold text-blue-400 mb-4">
+          Luke's Skills
+        </h3>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="network">網路資安</span>
+          <span class="tooltip-text">Network Security</span>
+        </div>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="linux">Linux</span>
+          <span class="tooltip-text">Linux OS</span>
+        </div>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="docker">Docker</span>
+          <span class="tooltip-text">Containerization</span>
+        </div>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="git">Git</span>
+          <span class="tooltip-text">Version Control</span>
+        </div>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="mysql">MySQL</span>
+          <span class="tooltip-text">Database</span>
+        </div>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="hardware">Hardware</span>
+          <span class="tooltip-text">Computer Hardware</span>
+        </div>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="office">Office</span>
+          <span class="tooltip-text">Microsoft Office</span>
+        </div>
+      </div>
+
+      <!-- Separator -->
+      <div class="section-separator">
+        <div class="separator-line"></div>
+        <div class="separator-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 5v14"></path>
+            <path d="M5 12h14"></path>
+          </svg>
+        </div>
+        <div class="separator-line"></div>
+      </div>
+
+      <!-- Ray's Profile -->
+      <section class="profile ray-profile">
+        <div class="profile-content">
+          <div class="profile-header">
+            <h1 class="vertical-text">RAY</h1>
+          </div>
+          <div class="profile-info">
+            <h2>開發經驗</h2>
+            <ul>
+              <li>iOS App 的 Swift 開發經驗，做過 UI，也有做過 App 的資料庫</li>
+              <li>
+                做過遊戲開發，Unreal、Unity
+                皆有與高中同學共同完成的小朋友下樓梯及 Flappy Bird 等等
+              </li>
+              <li>會一些基礎的 Blender 3D 建模，可做出蛋糕或甜甜圈</li>
+              <li>開發過 Arduino 掌機，完成 UI 設計，但因成本受限未量產</li>
+            </ul>
+          </div>
+          <div class="skills">
+            <h2>程式能力</h2>
+            <div class="skills-list">
+              <ul>
+                <li>Python</li>
+                <li>C 語言</li>
+                <li>Swift</li>
+                <li>Git</li>
+                <li>MySQL</li>
+              </ul>
+              <ul>
+                <li>Linux</li>
+                <li>HTML5 / CSS / JavaScript</li>
+                <li>Docker</li>
+                <li>Markdown</li>
+                <li>Arduino</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ray's Skill Tags -->
+      <div class="flex flex-wrap justify-center mt-8 mb-12">
+        <h3 class="w-full text-center text-xl font-semibold text-blue-400 mb-4">
+          Ray's Skills
+        </h3>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="python">Python</span>
+          <span class="tooltip-text">Python Programming</span>
+        </div>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="c">C</span>
+          <span class="tooltip-text">C Programming</span>
+        </div>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="swift">Swift</span>
+          <span class="tooltip-text">iOS Development</span>
+        </div>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="git">Git</span>
+          <span class="tooltip-text">Version Control</span>
+        </div>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="mysql">MySQL</span>
+          <span class="tooltip-text">Database</span>
+        </div>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="linux">Linux</span>
+          <span class="tooltip-text">Linux OS</span>
+        </div>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="web">HTML/CSS/JS</span>
+          <span class="tooltip-text">Web Development</span>
+        </div>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="docker">Docker</span>
+          <span class="tooltip-text">Containerization</span>
+        </div>
+        <div class="tooltip">
+          <span class="skill-tag m-1" data-skill="arduino">Arduino</span>
+          <span class="tooltip-text">Embedded Systems</span>
+        </div>
+      </div>
+
+      <!-- Projects Section -->
+      <section class="projects">
+        <a
+          href="https://github.com/rayhuang2006/Pong"
+          target="_blank"
+          class="project-link"
+        >
+          <div class="project">
+            <img src="img/project_pong.png" alt="Pong" class="project-image" />
+            <div class="project-info">
+              <h3>Pong</h3>
+              <p>
+                一款用 Swift 為 iOS 開發的節奏明快的 Pong
+                遊戲。它有與人機對戰以及兩人遊戲模式，與人機對戰又可以分為三個難度級別：簡單、中等和困難，分別能為玩家帶來不一樣的對戰體驗。
+              </p>
+            </div>
+          </div>
+        </a>
+        <a
+          href="https://github.com/rayhuang2006/WhatoEat"
+          target="_blank"
+          class="project-link"
+        >
+          <div class="project">
+            <img
+              src="img/project_whattoeat.png"
+              alt="WhatoEat"
+              class="project-image"
+            />
+            <div class="project-info">
+              <h3>WhatoEat</h3>
+              <p>
+                一款用 Swift 為 iOS
+                開發的抽籤程式，模擬遊戲抽卡系統，藉由卡片的滑動，抽取今天晚上要吃哪家餐廳或攤位作為晚餐。還可以點擊卡片，來翻看卡片背後的店家資訊。
+              </p>
+            </div>
+          </div>
+        </a>
+        <a
+          href="https://github.com/rayhuang2006/Glouns"
+          target="_blank"
+          class="project-link"
+        >
+          <div class="project">
+            <img
+              src="img/project_glouns.png"
+              alt="Glouns"
+              class="project-image"
+            />
+            <div class="project-info">
+              <h3>Glouns</h3>
+              <p>
+                一款以 Python 為基礎開發的 Discord
+                機器人，具有「某種程度上的」「貓」工智能，是一個娛樂類型的機器人，能為使用者帶來如同真實貓咪或許暖心或許煩躁的體驗過程。
+              </p>
+            </div>
+          </div>
+        </a>
+        <a
+          href="https://github.com/rayhuang2006/RPS"
+          target="_blank"
+          class="project-link"
+        >
+          <div class="project">
+            <img src="img/project_rps.png" alt="RPS" class="project-image" />
+            <div class="project-info">
+              <h3>RPS</h3>
+              <p>
+                一款用 Swift 為 iOS
+                開發的的猜拳遊戲，開發中，目前註冊以及登入的前端以及 MySQL
+                後端完成，遊戲大廳基本排版完畢。
+              </p>
+            </div>
+          </div>
+        </a>
+      </section>
+    </div>
+  </body>
+</html>
