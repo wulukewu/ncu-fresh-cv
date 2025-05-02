@@ -1,23 +1,19 @@
 name: PR Preview
-
 on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - "**"
-
 jobs:
   build-and-preview:
     if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Checkout gh-pages branch
         if: success()
         uses: actions/checkout@v4
@@ -25,20 +21,19 @@ jobs:
           ref: gh-pages
           path: gh-pages
           fetch-depth: 0
-
       - name: Create preview directory
         if: success()
         run: |
           mkdir -p gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}
           echo "Created preview directory: pr-preview/pr-${{ github.event.pull_request.number }}"
-
       - name: Copy files to preview directory
         if: success()
         run: |
-          cp -r * gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
+          # Copy all files and directories EXCEPT the 'gh-pages' directory itself
+          find . -maxdepth 1 ! -path "./.git" ! -path "./gh-pages" -print0 | xargs -0 cp -r --target-directory=gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
+
           echo "Contents of preview directory:"
           ls -la gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
-
       - name: Commit and push changes
         if: success()
         run: |
@@ -53,7 +48,6 @@ jobs:
             git remote set-url origin https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
             git push
           fi
-
       - name: Comment PR
         if: success()
         uses: actions/github-script@v7
@@ -66,7 +60,6 @@ jobs:
                 repo: context.repo.repo,
                 issue_number: context.issue.number
               });
-              
               // Delete all existing preview comments
               for (const comment of comments.data) {
                 if (comment.body.includes('**PR Preview**')) {
@@ -81,7 +74,6 @@ jobs:
                   }
                 }
               }
-              
               // Create new preview comment
               const previewUrl = `https://${context.repo.owner}.github.io/${context.repo.repo}/pr-preview/pr-${context.payload.pull_request.number}/`;
               const branch = context.payload.pull_request.base.ref;
@@ -96,7 +88,6 @@ jobs:
               console.error('Failed to update PR comments:', error);
               core.setFailed(error.message);
             }
-
   cleanup:
     if: github.event.action == 'closed'
     runs-on: ubuntu-latest
@@ -107,7 +98,6 @@ jobs:
           ref: gh-pages
           path: gh-pages
           fetch-depth: 0
-
       - name: Remove preview directory
         run: |
           if [ -d "gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}" ]; then
