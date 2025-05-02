@@ -1,0 +1,119 @@
+name: PR Preview
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - "**"
+jobs:
+  build-and-preview:
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Checkout gh-pages branch
+        if: success()
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+          fetch-depth: 0
+      - name: Create preview directory
+        if: success()
+        run: |
+          mkdir -p gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}
+          echo "Created preview directory: pr-preview/pr-${{ github.event.pull_request.number }}"
+      - name: Copy files to preview directory
+        if: success()
+        run: |
+          # Copy only index.html, style.css, script.js, fonts, and img folders
+          mkdir -p gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/fonts
+          mkdir -p gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/img
+
+          cp index.html gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
+          cp style.css gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
+          cp script.js gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
+          cp -r fonts/* gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/fonts/
+          cp -r img/* gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/img/
+
+          echo "Contents of preview directory:"
+          ls -la gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
+      - name: Commit and push changes
+        if: success()
+        run: |
+          cd gh-pages
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add pr-preview/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Add preview for PR #${{ github.event.pull_request.number }} at $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            git remote set-url origin https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
+            git push
+          fi
+      - name: Comment PR
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              // First, get all existing comments
+              const comments = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number
+              });
+              // Delete all existing preview comments
+              for (const comment of comments.data) {
+                if (comment.body.includes('**PR Preview**')) {
+                  try {
+                    await github.rest.issues.deleteComment({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      comment_id: comment.id
+                    });
+                  } catch (error) {
+                    console.log(`Failed to delete comment ${comment.id}: ${error.message}`);
+                  }
+                }
+              }
+              // Create new preview comment
+              const previewUrl = `https://${context.repo.owner}.github.io/${context.repo.repo}/pr-preview/pr-${context.payload.pull_request.number}/`;
+              const branch = context.payload.pull_request.base.ref;
+              const timestamp = new Date().toISOString().replace('T', ' ').replace(/\..+/, ' UTC');
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `**PR Preview**\n\n| Preview | Branch | Timestamp |\n|---------|--------|-----------|\n| [Deployed Preview](${previewUrl}) | \`${branch}\` | ${timestamp} |`
+              });
+            } catch (error) {
+              console.error('Failed to update PR comments:', error);
+              core.setFailed(error.message);
+            }
+  cleanup:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+          fetch-depth: 0
+      - name: Remove preview directory
+        run: |
+          if [ -d "gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}" ]; then
+            rm -rf "gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}"
+            cd gh-pages
+            git config --global user.email "actions@github.com"
+            git config --global user.name "GitHub Actions"
+            git add .
+            git commit -m "Remove preview for closed PR #${{ github.event.pull_request.number }} at $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            git remote set-url origin https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
+            git push
+          fi
