@@ -29,8 +29,15 @@ jobs:
       - name: Copy files to preview directory
         if: success()
         run: |
-          # Copy all files and directories EXCEPT the 'gh-pages' and '.git' directory itself
-          find . -maxdepth 1 ! -path "./.git" ! -path "./gh-pages" -print0 | xargs -0 cp -r -t gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
+          # Copy only index.html, style.css, script.js, fonts, and img folders
+          mkdir -p gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/fonts
+          mkdir -p gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/img
+
+          cp index.html gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
+          cp style.css gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
+          cp script.js gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
+          cp -r fonts/* gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/fonts/
+          cp -r img/* gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/img/
 
           echo "Contents of preview directory:"
           ls -la gh-pages/pr-preview/pr-${{ github.event.pull_request.number }}/
